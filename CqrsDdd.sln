@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NetworkEdition", "NetworkEdition", "{1D44CB34-ACC8-4C21-BBF6-F6B9F9C4C663}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkEdition.API", "NetworkEdition.API\NetworkEdition.API.csproj", "{137DC388-599E-4732-A9FC-20A4BC85840D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkEdition.Application", "NetworkEdition.Application\NetworkEdition.Application.csproj", "{CFC3B3C3-D0D5-48A2-8800-788847EFDAFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation", "Foundation\Foundation.csproj", "{56571588-9044-4581-AF69-50402C2D7AE5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{137DC388-599E-4732-A9FC-20A4BC85840D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{137DC388-599E-4732-A9FC-20A4BC85840D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{137DC388-599E-4732-A9FC-20A4BC85840D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{137DC388-599E-4732-A9FC-20A4BC85840D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFC3B3C3-D0D5-48A2-8800-788847EFDAFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFC3B3C3-D0D5-48A2-8800-788847EFDAFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFC3B3C3-D0D5-48A2-8800-788847EFDAFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFC3B3C3-D0D5-48A2-8800-788847EFDAFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56571588-9044-4581-AF69-50402C2D7AE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56571588-9044-4581-AF69-50402C2D7AE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56571588-9044-4581-AF69-50402C2D7AE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56571588-9044-4581-AF69-50402C2D7AE5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{137DC388-599E-4732-A9FC-20A4BC85840D} = {1D44CB34-ACC8-4C21-BBF6-F6B9F9C4C663}
+		{CFC3B3C3-D0D5-48A2-8800-788847EFDAFA} = {1D44CB34-ACC8-4C21-BBF6-F6B9F9C4C663}
+	EndGlobalSection
+EndGlobal
