@@ -5,7 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Equ" Version="2.2.0" />
+      <ProjectReference Include="..\Foundation\Foundation.csproj" />
     </ItemGroup>
 
 </Project>
