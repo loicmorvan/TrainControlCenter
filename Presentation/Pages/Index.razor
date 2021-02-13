@@ -1,7 +1,33 @@
 ﻿@page "/"
+@using NetworkEdition.Application.Models
+@using System.Collections
+@inject HttpClient HttpClient
 
-<h1>Hello, world!</h1>
+<h1>Home</h1>
 
-Welcome to your new app.
+<span>Select or create a new network.</span>
 
-<SurveyPrompt Title="How is Blazor working for you?"/>
+<button @onClick="CreateButtonClicked">Create</button>
+
+@foreach (var network in _networks)
+{
+    <span>@network.Name</span>
+}
+
+@code
+{
+    private Network[] _networks;
+
+    protected override async Task OnInitializedAsync()
+    {  
+        _networks = (await HttpClient.GetFromJsonAsync<IEnumerable<Network>>("https://localhost:6001") ?? Enumerable.Empty<Network>()).ToArray();
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task CreateButtonClicked()
+    {
+        var network = await HttpClient.GetFromJsonAsync<Network>("https://localhost:6001/Create");
+        _networks = _networks.Append(network).ToArray();
+    }
+}
