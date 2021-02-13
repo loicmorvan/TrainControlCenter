@@ -12,7 +12,7 @@ namespace NetworkEdition.Domain.NetworkAggregate
         {
         }
 
-        public void CreateRelay()
+        public RelayIdentifier CreateRelay()
         {
             RelayIdentifier relayIdentity = Guid.NewGuid();
             var relay = new Relay(relayIdentity);
@@ -20,6 +20,8 @@ namespace NetworkEdition.Domain.NetworkAggregate
             _relays.Add(relay);
 
             Publish(new RelayCreated(Identity, relayIdentity));
+
+            return relayIdentity;
         }
 
         public void RemoveRelay(RelayIdentifier relayIdentity)
