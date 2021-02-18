@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using NetworkEdition.Application.Commands;
 using NetworkEdition.Application.Models;
 using NetworkEdition.Application.Queries;
 
@@ -27,7 +26,7 @@ namespace NetworkEdition.API.Controllers
         [Route("Create")]
         public void Create(string name)
         {
-            var command = new CreateNetwork("New network");
+            // var command = new CreateNetwork("New network");
             //_commandDispatcher.Dispatch(command);
         }
     }
