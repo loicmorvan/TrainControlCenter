@@ -45,7 +45,7 @@ else
         forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
 
         var client = ClientFactory.CreateClient("Backend");
-        await client.GetFromJsonAsync<string>((string)null);
+        await client.GetFromJsonAsync<dynamic>((string)null);
     }
 
     public class WeatherForecast

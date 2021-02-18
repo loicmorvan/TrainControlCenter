@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using NetworkEdition.Application.Queries;
+using NetworkEdition.Infrastructure;
 
 namespace NetworkEdition.API
 {
@@ -23,13 +25,19 @@ namespace NetworkEdition.API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1",
-                             new OpenApiInfo {Title = "NetworkEdition.API", Version = "v1"});
+                             new OpenApiInfo
+                             {
+                                 Title = "NetworkEdition.API",
+                                 Version = "v1"
+                             });
             });
             
             services.AddCors(opt => opt.AddPolicy("name",
                                                   builder => builder.AllowAnyOrigin()
                                                                     .AllowAnyHeader()
                                                                     .AllowAnyMethod()));
+
+            services.AddSingleton<INetworkQueries, NetworkQueries>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,7 +54,7 @@ namespace NetworkEdition.API
 
             app.UseRouting();
 
-            app.UseCors();
+            app.UseCors("name");
 
             app.UseAuthorization();
 
