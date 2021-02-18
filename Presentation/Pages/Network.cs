@@ -1,4 +1,6 @@
+using System;
+
 namespace Presentation.Pages
 {
-    public record Network(string Name);
+    public record Network(Guid Id, string Name);
 }
