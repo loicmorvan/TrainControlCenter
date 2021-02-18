@@ -1,7 +1,42 @@
 ﻿@page "/"
+@inject IHttpClientFactory ClientFactory
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?"/>
+@if (_networks == null)
+{
+    <span>Loading...</span>
+}
+else
+{
+    <table>
+        <thead>
+        <tr>
+            <td>Name</td>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var network in _networks)
+        {
+            <tr>
+                <td>@network.Name</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        var client = ClientFactory.CreateClient("Backend");
+        _networks = await client.GetFromJsonAsync<IEnumerable<Network>>((string) null);
+
+        await base.OnInitializedAsync();
+    }
+
+    private IEnumerable<Network> _networks;
+}
