@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using NetworkEdition.Application.Models;
 using NetworkEdition.Application.Queries;
@@ -28,6 +29,13 @@ namespace NetworkEdition.API.Controllers
         {
             // var command = new CreateNetwork("New network");
             //_commandDispatcher.Dispatch(command);
+        }
+
+        [HttpGet]
+        [Route("Single")]
+        public Network GetNetwork(Guid identity)
+        {
+            return _queries.Get(identity);
         }
     }
 }

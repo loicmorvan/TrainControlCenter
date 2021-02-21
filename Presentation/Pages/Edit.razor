@@ -1,7 +1,25 @@
-@page "/Edit"
+@page "/Edit/{Identity:guid}"
+@inject IHttpClientFactory ClientFactory
 
-<h3>Edit</h3>
+<h3>
+    <text>@Name</text>
+</h3>
 
 @code {
-    
+
+    [Parameter]
+    public Guid Identity { get; set; }
+
+    public string Name { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var client = ClientFactory.CreateClient("Backend");
+        var network = await client.GetFromJsonAsync<Network>($"Single?identity={Identity}");
+
+        Name = network?.Name ?? throw new Exception();
+
+        await base.OnInitializedAsync();
+    }
+
 }
