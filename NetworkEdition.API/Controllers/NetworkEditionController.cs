@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using NetworkEdition.Application.Models;
 using NetworkEdition.Application.Queries;
+using NetworkEdition.ViewModels;
 
 namespace NetworkEdition.API.Controllers
 {

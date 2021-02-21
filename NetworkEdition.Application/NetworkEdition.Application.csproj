@@ -6,6 +6,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Foundation\Foundation.csproj" />
+      <ProjectReference Include="..\NetworkEdition.ViewModels\NetworkEdition.ViewModels.csproj" />
     </ItemGroup>
 
 </Project>
