@@ -2,25 +2,51 @@
 @using NetworkEdition.ViewModels
 @inject IHttpClientFactory ClientFactory
 
-<h3>
-    <text>@Name</text>
-</h3>
+@if (_network == null)
+{
+    <h3>Loading...</h3>
+}
+else
+{
+    <h3>@_network.Name</h3>
+
+    <div>
+        @foreach (var relay in _network.Relays)
+        {
+            <div class="card"
+                 style="position: relative; left: @(relay.X)px; top: @(relay.Y)px; width: 150px; height: 150px;"
+                 draggable="true"
+                 @ondrag="Drag">
+                <div class="card-header">
+                    @relay.Name
+                </div>
+                <div class="card-body">
+                    Some text here?
+                </div>
+            </div>
+        }
+    </div>
+}
 
 @code {
 
     [Parameter]
     public Guid Identity { get; set; }
 
-    public string Name { get; set; }
+    private Network _network;
 
     protected override async Task OnInitializedAsync()
     {
         var client = ClientFactory.CreateClient("Backend");
-        var network = await client.GetFromJsonAsync<Network>($"Single?identity={Identity}");
-
-        Name = network?.Name ?? throw new Exception();
+        _network = await client.GetFromJsonAsync<Network>($"Single?identity={Identity}")
+                   ?? throw new Exception();
 
         await base.OnInitializedAsync();
+    }
+
+    private void Drag(DragEventArgs e)
+    {
+        // TODO
     }
 
 }
