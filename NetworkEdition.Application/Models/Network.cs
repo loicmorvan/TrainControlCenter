@@ -1,7 +1,6 @@
+using System;
+
 namespace NetworkEdition.Application.Models
 {
-    public class Network
-    {
-        public string Name { get; set; }
-    }
+    public record Network(string Name, Guid Identity);
 }
