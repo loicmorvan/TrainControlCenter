@@ -8,32 +8,31 @@ namespace NetworkEdition.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class NetworkEditionController : ControllerBase
+    public class NetworkController : ControllerBase
     {
         private readonly INetworkQueries _queries;
 
-        public NetworkEditionController(INetworkQueries queries)
+        public NetworkController(INetworkQueries queries)
         {
             _queries = queries;
         }
 
         [HttpGet]
-        public IEnumerable<Network> Get()
+        [Route("List")]
+        public IEnumerable<Network> GetList()
         {
             return _queries.GetAll();
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("Create")]
-        public void Create(string name)
+        public Guid Create()
         {
-            // var command = new CreateNetwork("New network");
-            //_commandDispatcher.Dispatch(command);
+            return Guid.Empty;
         }
 
         [HttpGet]
-        [Route("Single")]
-        public Network GetNetwork(Guid identity)
+        public Network Get(Guid identity)
         {
             return _queries.Get(identity);
         }

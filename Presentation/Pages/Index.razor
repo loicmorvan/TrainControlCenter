@@ -38,7 +38,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         var client = ClientFactory.CreateClient("Backend");
-        _networks = await client.GetFromJsonAsync<IEnumerable<Network>>((string) null);
+        _networks = await client.GetFromJsonAsync<IEnumerable<Network>>("List");
 
         await base.OnInitializedAsync();
     }

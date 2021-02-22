@@ -16,7 +16,8 @@ else
             <div class="card"
                  style="position: relative; left: @(relay.X)px; top: @(relay.Y)px; width: 150px; height: 150px;"
                  draggable="true"
-                 @ondrag="Drag">
+                 @ondragstart="DragStart"
+                 @ondragover="DragOver">
                 <div class="card-header">
                     @relay.Name
                 </div>
@@ -38,13 +39,18 @@ else
     protected override async Task OnInitializedAsync()
     {
         var client = ClientFactory.CreateClient("Backend");
-        _network = await client.GetFromJsonAsync<Network>($"Single?identity={Identity}")
+        _network = await client.GetFromJsonAsync<Network>($"?identity={Identity}")
                    ?? throw new Exception();
 
         await base.OnInitializedAsync();
     }
 
-    private void Drag(DragEventArgs e)
+    private void DragStart(DragEventArgs e)
+    {
+        
+    }
+    
+    private void DragOver(DragEventArgs e)
     {
         // TODO
     }
