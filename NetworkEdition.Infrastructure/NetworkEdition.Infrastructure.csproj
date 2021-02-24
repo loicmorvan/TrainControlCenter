@@ -6,6 +6,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\NetworkEdition.Application\NetworkEdition.Application.csproj" />
+      <ProjectReference Include="..\NetworkEdition.Domain\NetworkEdition.Domain.csproj" />
     </ItemGroup>
 
 </Project>

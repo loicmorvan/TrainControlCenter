@@ -28,10 +28,11 @@ namespace NetworkEdition.Domain.Tests
             public void DoesRemoveTheRelay()
             {
                 // Arrange
-                var networkIdentity = (NetworkIdentifier)Guid.NewGuid();
+                var networkIdentity = (NetworkIdentifier) Guid.NewGuid();
                 var sut = new Network(networkIdentity);
-                var relayIdentity = sut.CreateRelay();
-                
+                var relayIdentity = (RelayIdentifier) Guid.NewGuid();
+                sut.CreateRelay(relayIdentity);
+
                 var observerMock = new Mock<IObserver<DomainEvent>>();
                 using var disposable = sut.DomainEvents
                                           .Subscribe(observerMock.Object);
@@ -51,10 +52,11 @@ namespace NetworkEdition.Domain.Tests
             public void DoesCreateARelay()
             {
                 // Arrange
-                var networkIdentity = (NetworkIdentifier)Guid.NewGuid();
+                var networkIdentity = (NetworkIdentifier) Guid.NewGuid();
                 var sut = new Network(networkIdentity);
-                var relayIdentity = sut.CreateRelay();
-                
+                var relayIdentity = (RelayIdentifier) Guid.NewGuid();
+                sut.CreateRelay(relayIdentity);
+
                 var observerMock = new Mock<IObserver<DomainEvent>>();
                 using var disposable = sut.DomainEvents
                                           .Subscribe(observerMock.Object);

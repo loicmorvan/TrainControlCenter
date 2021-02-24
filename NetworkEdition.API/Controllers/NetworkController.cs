@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using NetworkEdition.Application.Queries;
-using NetworkEdition.ViewModels;
+using NetworkEdition.Domain.NetworkAggregate;
+using Network = NetworkEdition.ViewModels.Network;
 
 namespace NetworkEdition.API.Controllers
 {
@@ -11,10 +12,12 @@ namespace NetworkEdition.API.Controllers
     public class NetworkController : ControllerBase
     {
         private readonly INetworkQueries _queries;
+        private readonly INetworkRepository _repository;
 
-        public NetworkController(INetworkQueries queries)
+        public NetworkController(INetworkQueries queries, INetworkRepository repository)
         {
             _queries = queries;
+            _repository = repository;
         }
 
         [HttpGet]
@@ -28,13 +31,21 @@ namespace NetworkEdition.API.Controllers
         [Route("Create")]
         public Guid Create()
         {
-            return Guid.Empty;
+            return _repository.Create().Identity;
         }
 
         [HttpGet]
+        [Route("{identity}/Edit")]
         public Network Get(Guid identity)
         {
             return _queries.Get(identity);
+        }
+
+        [HttpDelete]
+        [Route("{identity}")]
+        public void Delete(Guid identity)
+        {
+            _repository.Delete(identity);
         }
     }
 }

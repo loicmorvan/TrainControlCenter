@@ -5,7 +5,7 @@ namespace NetworkEdition.Domain.NetworkAggregate
 {
     public class Relay : Entity<RelayIdentifier>
     {
-        private Point _pointOnCanvas;
+        private Point _pointOnCanvas = Point.Zero;
 
         public Relay(RelayIdentifier identity) : base(identity)
         {
@@ -17,9 +17,13 @@ namespace NetworkEdition.Domain.NetworkAggregate
             set
             {
                 _pointOnCanvas = value;
-                
+
                 Publish(new PointOnCanvasChanged(Identity, value));
             }
         }
+
+        public string Name { get; internal set; } = "Unnamed relay";
+
+        public bool IsClosed { get; internal set; } = false;
     }
 }

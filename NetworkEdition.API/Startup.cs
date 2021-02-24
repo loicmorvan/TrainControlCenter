@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -5,7 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using NetworkEdition.Application.Queries;
+using NetworkEdition.Domain.NetworkAggregate;
 using NetworkEdition.Infrastructure;
+using Network = NetworkEdition.Infrastructure.PersistenceModels.Network;
 
 namespace NetworkEdition.API
 {
@@ -31,12 +34,15 @@ namespace NetworkEdition.API
                                  Version = "v1"
                              });
             });
-            
+
             services.AddCors(opt => opt.AddPolicy("name",
                                                   builder => builder.AllowAnyOrigin()
                                                                     .AllowAnyHeader()
                                                                     .AllowAnyMethod()));
 
+            services
+                .AddSingleton<IDictionary<NetworkIdentifier, Network>>(new Dictionary<NetworkIdentifier, Network>());
+            services.AddSingleton<INetworkRepository, NetworkRepository>();
             services.AddSingleton<INetworkQueries, NetworkQueries>();
         }
 

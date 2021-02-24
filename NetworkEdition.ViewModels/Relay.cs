@@ -2,5 +2,5 @@
 
 namespace NetworkEdition.ViewModels
 {
-    public record Relay(Guid Identity, string Name, int X, int Y);
+    public record Relay(Guid Identity, string Name, double X, double Y);
 }

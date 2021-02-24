@@ -3,51 +3,64 @@
 @inject IHttpClientFactory ClientFactory
 @inject NavigationManager NavigationManager
 
-<h1>Hello, world!</h1>
+<div>
+    <button class="btn btn-primary" @onclick="New">New</button>
+</div>
 
-Welcome to your new app.
-
-@if (_networks == null)
-{
-    <span>Loading...</span>
-}
-else
-{
-    <div class="container">
-        <div class="row row-cols-2">
-            @foreach (var (id, name, _) in _networks)
-            {
-                <div class="col">
-                    <div class="card">
-                        <div class="card-header">
-                            Network
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">@name</h5>
-                            <button @onclick="() => Open(id)" class="btn btn-primary">Edit</button>
-                        </div>
-                    </div>
-                </div>
-            }
+<div class="card-columns">
+    @foreach (var (id, name, _) in _networks)
+    {
+        <div class="card">
+            <div class="card-header">
+                @name
+            </div>
+            <div class="card-body">
+                <button @onclick="() => Open(id)" class="btn btn-primary">Edit</button>
+                <button @onclick="() => Delete(id)" class="btn btn-outline-danger">Delete</button>
+            </div>
         </div>
-    </div>
-}
+    }
+</div>
 
 @code {
+
+#nullable enable
+
+    private Network[] _networks = Array.Empty<Network>();
 
     protected override async Task OnInitializedAsync()
     {
         var client = ClientFactory.CreateClient("Backend");
-        _networks = await client.GetFromJsonAsync<IEnumerable<Network>>("List");
+        _networks = (await client.GetFromJsonAsync<IEnumerable<Network>>("List")
+                     ?? throw new Exception())
+            .ToArray();
 
         await base.OnInitializedAsync();
     }
 
-    private IEnumerable<Network> _networks;
-
     private void Open(Guid id)
     {
-        NavigationManager.NavigateTo($"Edit/{id}");
+        NavigationManager.NavigateTo($"{id}/Edit");
+    }
+
+    private async Task Delete(Guid id)
+    {     
+        var client = ClientFactory.CreateClient("Backend");
+        await client.DeleteAsync(id.ToString());
+
+        _networks = _networks.Where(x => x.Identity != id)
+                             .ToArray();
+    }
+
+    private async Task New()
+    {    
+        var client = ClientFactory.CreateClient("Backend");
+
+        var identity = await client.GetFromJsonAsync<Guid>("Create");
+        var network = await client.GetFromJsonAsync<Network>($"{identity}/Edit") ?? throw new Exception();
+
+        _networks = _networks.Append(network)
+                             .ToArray();
     }
 
 }

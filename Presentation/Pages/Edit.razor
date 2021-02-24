@@ -1,4 +1,4 @@
-@page "/Edit/{Identity:guid}"
+@page "/{Identity:guid}/Edit"
 @using NetworkEdition.ViewModels
 @inject IHttpClientFactory ClientFactory
 
@@ -10,14 +10,12 @@ else
 {
     <h3>@_network.Name</h3>
 
-    <div>
+    <div class="card-columns">
         @foreach (var relay in _network.Relays)
         {
             <div class="card"
                  style="position: relative; left: @(relay.X)px; top: @(relay.Y)px; width: 150px; height: 150px;"
-                 draggable="true"
-                 @ondragstart="DragStart"
-                 @ondragover="DragOver">
+                 draggable="true">
                 <div class="card-header">
                     @relay.Name
                 </div>
@@ -31,28 +29,20 @@ else
 
 @code {
 
+#nullable enable
+
     [Parameter]
     public Guid Identity { get; set; }
 
-    private Network _network;
+    private Network? _network;
 
     protected override async Task OnInitializedAsync()
     {
         var client = ClientFactory.CreateClient("Backend");
-        _network = await client.GetFromJsonAsync<Network>($"?identity={Identity}")
+        _network = await client.GetFromJsonAsync<Network>($"{Identity}/Edit")
                    ?? throw new Exception();
 
         await base.OnInitializedAsync();
-    }
-
-    private void DragStart(DragEventArgs e)
-    {
-        
-    }
-    
-    private void DragOver(DragEventArgs e)
-    {
-        // TODO
     }
 
 }
