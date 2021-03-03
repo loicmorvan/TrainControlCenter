@@ -9,12 +9,12 @@ namespace NetworkEdition.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class NetworkController : ControllerBase
+    public class NetworksController : ControllerBase
     {
         private readonly INetworkQueries _queries;
         private readonly INetworkRepository _repository;
 
-        public NetworkController(INetworkQueries queries, INetworkRepository repository)
+        public NetworksController(INetworkQueries queries, INetworkRepository repository)
         {
             _queries = queries;
             _repository = repository;

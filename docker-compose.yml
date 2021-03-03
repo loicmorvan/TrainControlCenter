@@ -1,0 +1,15 @@
+services:
+  sensor_edition_api:
+    build:
+      context: .
+      dockerfile: NetworkEdition.API/Dockerfile
+    ports:
+      - "5000:80"
+  presentation:
+    build:
+      dockerfile: Presentation/Dockerfile
+      context: .
+    ports:
+      - "8080:80"
+    depends_on: 
+      - sensor_edition_api

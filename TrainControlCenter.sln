@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_config", "_config", "{C77F
 ProjectSection(SolutionItems) = preProject
 	.gitignore = .gitignore
 	Directory.Build.props = Directory.Build.props
+	docker-compose.yml = docker-compose.yml
 EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkEdition.Domain", "NetworkEdition.Domain\NetworkEdition.Domain.csproj", "{8A90E04D-EA20-4D34-BDEC-9864FF206BFA}"

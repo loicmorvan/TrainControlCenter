@@ -21,7 +21,7 @@ namespace Presentation
             builder.Services.AddHttpClient("Backend",
                                            client =>
                                            {
-                                               client.BaseAddress = new Uri("https://localhost:6001/Network/");
+                                               client.BaseAddress = new Uri("http://localhost:5000/Networks/");
                                            });
 
             await builder.Build().RunAsync();
