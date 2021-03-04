@@ -13,9 +13,13 @@ COPY Presentation/ Presentation/
 RUN dotnet publish -c Release -o /publish "Presentation/Presentation.csproj"
 
 #--------------------
-FROM nginx:latest AS final
+FROM nginx:alpine AS final
+RUN apk add bash
 
 WORKDIR /usr/share/nginx/html
 
 COPY --from=publish /publish/wwwroot /usr/local/webapp/nginx/html
 COPY Presentation/nginx.conf /etc/nginx/nginx.conf
+COPY Presentation/entrypoint.sh /scripts/
+
+ENTRYPOINT sh /scripts/entrypoint.sh

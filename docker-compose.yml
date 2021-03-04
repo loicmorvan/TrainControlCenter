@@ -14,4 +14,4 @@ services:
     depends_on: 
       - sensor-edition-api
     environment:
-      - "NETWORK_EDITION_URL=http://localhost:5000"
+      - "NETWORK_EDITION_URL=http://localhost:5000/Networks/"
