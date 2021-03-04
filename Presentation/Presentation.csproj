@@ -16,4 +16,11 @@
       <ProjectReference Include="..\NetworkEdition.ViewModels\NetworkEdition.ViewModels.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Include="nginx.conf">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+    </ItemGroup>
+
 </Project>
