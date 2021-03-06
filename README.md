@@ -1,0 +1,1 @@
+[![.NET](https://github.com/loicmorvan/TrainControlCenter/actions/workflows/dotnet.yml/badge.svg)](https://github.com/loicmorvan/TrainControlCenter/actions/workflows/dotnet.yml)

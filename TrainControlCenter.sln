@@ -14,6 +14,7 @@ ProjectSection(SolutionItems) = preProject
 	Directory.Build.props = Directory.Build.props
 	docker-compose.yml = docker-compose.yml
 	.dockerignore = .dockerignore
+	README.md = README.md
 EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkEdition.Domain", "NetworkEdition.Domain\NetworkEdition.Domain.csproj", "{8A90E04D-EA20-4D34-BDEC-9864FF206BFA}"
