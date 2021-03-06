@@ -16,7 +16,7 @@ namespace NetworkEdition.Infrastructure
             _networks = networks;
         }
 
-        public Domain.NetworkAggregate.Network Create()
+        public NetworkIdentifier Create()
         {
             var identity = Guid.NewGuid();
             var network = new Network(identity,
@@ -25,7 +25,7 @@ namespace NetworkEdition.Infrastructure
 
             _networks.Add(identity, network);
 
-            return Convert(network);
+            return identity;
         }
 
         public Domain.NetworkAggregate.Network Read(NetworkIdentifier id)

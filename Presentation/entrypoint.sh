@@ -1,8 +1,12 @@
 #!/usr/bin/env sh
-echo "{" > /usr/local/webapp/nginx/html/appsettings.json
-echo "  \"network-edition-url\": \"${NETWORK_EDITION_URL}\"" >> /usr/local/webapp/nginx/html/appsettings.json
-echo "}" >> /usr/local/webapp/nginx/html/appsettings.json
 
-cat /usr/local/webapp/nginx/html/appsettings.json
+appSettingsFile=$1
+networkEditionUrl=$2
+
+echo "{" > "$appSettingsFile"
+echo "  \"network-edition-url\": \"$networkEditionUrl\"" >> "$appSettingsFile"
+echo "}" >> "$appSettingsFile"
+
+cat "$appSettingsFile"
 
 nginx -g "daemon off;"

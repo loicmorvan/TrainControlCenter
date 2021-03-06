@@ -2,7 +2,7 @@ namespace NetworkEdition.Domain.NetworkAggregate
 {
     public interface INetworkRepository
     {
-        Network Create();
+        NetworkIdentifier Create();
 
         Network Read(NetworkIdentifier id);
 

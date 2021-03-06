@@ -13,5 +13,5 @@ services:
       - "8080:80"
     depends_on: 
       - sensor-edition-api
-    environment:
-      - "NETWORK_EDITION_URL=http://localhost:5000/Networks/"
+    command:
+      - "http://localhost:5000/api/"

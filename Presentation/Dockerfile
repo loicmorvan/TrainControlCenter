@@ -22,4 +22,5 @@ COPY --from=publish /publish/wwwroot /usr/local/webapp/nginx/html
 COPY Presentation/nginx.conf /etc/nginx/nginx.conf
 COPY Presentation/entrypoint.sh /scripts/
 
-ENTRYPOINT sh /scripts/entrypoint.sh
+ENTRYPOINT [ "sh", "/scripts/entrypoint.sh", "/usr/local/webapp/nginx/html/appsettings.json" ]
+CMD [ "https://localhost:6001/api/" ]

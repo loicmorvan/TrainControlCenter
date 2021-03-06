@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NetworkEdition.Application.Queries;
 using NetworkEdition.Domain.NetworkAggregate;
@@ -8,7 +9,7 @@ using Network = NetworkEdition.ViewModels.Network;
 namespace NetworkEdition.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class NetworksController : ControllerBase
     {
         private readonly INetworkQueries _queries;
@@ -20,29 +21,29 @@ namespace NetworkEdition.API.Controllers
             _repository = repository;
         }
 
-        [HttpGet]
-        [Route("List")]
-        public IEnumerable<Network> GetList()
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Network))]
+        public IActionResult Create()
         {
-            return _queries.GetAll();
+            var id = _repository.Create();
+            var network = _queries.Read(id);
+
+            return CreatedAtAction(nameof(Read), new {identity = (Guid) id}, network);
         }
 
         [HttpGet]
-        [Route("Create")]
-        public Guid Create()
+        public IEnumerable<Network> ReadAll()
         {
-            return _repository.Create().Identity;
+            return _queries.ReadAll();
         }
 
-        [HttpGet]
-        [Route("{identity}/Edit")]
-        public Network Get(Guid identity)
+        [HttpGet("{identity}")]
+        public Network Read(Guid identity)
         {
-            return _queries.Get(identity);
+            return _queries.Read(identity);
         }
 
-        [HttpDelete]
-        [Route("{identity}")]
+        [HttpDelete("{identity}")]
         public void Delete(Guid identity)
         {
             _repository.Delete(identity);

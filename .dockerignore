@@ -1,4 +1,7 @@
 bin/
 obj/
+publish/
 Dockerfile
 docker-compose.yml
+.git/
+.gitignore

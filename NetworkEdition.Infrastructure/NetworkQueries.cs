@@ -17,13 +17,13 @@ namespace NetworkEdition.Infrastructure
             _networks = networks;
         }
 
-        public IEnumerable<ViewModels.Network> GetAll()
+        public IEnumerable<ViewModels.Network> ReadAll()
         {
             return _networks.Values
                             .Select(Convert);
         }
 
-        public ViewModels.Network Get(Guid identity)
+        public ViewModels.Network Read(Guid identity)
         {
             return Convert(_networks[identity]);
         }

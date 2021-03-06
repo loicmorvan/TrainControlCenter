@@ -6,8 +6,8 @@ namespace NetworkEdition.Application.Queries
 {
     public interface INetworkQueries
     {
-        IEnumerable<Network> GetAll();
+        IEnumerable<Network> ReadAll();
 
-        Network Get(Guid identity);
+        Network Read(Guid identity);
     }
 }

@@ -19,7 +19,12 @@ namespace NetworkEdition.Domain.NetworkAggregate
 
         public static implicit operator NetworkIdentifier(Guid value)
         {
-            return new (value);
+            return new(value);
+        }
+
+        public override string ToString()
+        {
+            return _value.ToString();
         }
     }
 }
