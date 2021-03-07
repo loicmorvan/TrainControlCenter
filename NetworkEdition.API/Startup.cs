@@ -1,10 +1,13 @@
+using System;
 using System.Collections.Generic;
+using Foundation.Application;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using NetworkEdition.Application.CommandHandlers;
 using NetworkEdition.Application.Queries;
 using NetworkEdition.Domain.NetworkAggregate;
 using NetworkEdition.Infrastructure;
@@ -44,6 +47,13 @@ namespace NetworkEdition.API
                 .AddSingleton<IDictionary<NetworkIdentifier, Network>>(new Dictionary<NetworkIdentifier, Network>());
             services.AddSingleton<INetworkRepository, NetworkRepository>();
             services.AddSingleton<INetworkQueries, NetworkQueries>();
+            services.AddSingleton<ICommandDispatcher>(provider =>
+            {
+                var networkRepository = provider.GetService<INetworkRepository>() ??
+                                        throw new NullReferenceException("No network repository is registered.");
+
+                return new CommandDispatcher(new CreateNetworkHandler(networkRepository));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
