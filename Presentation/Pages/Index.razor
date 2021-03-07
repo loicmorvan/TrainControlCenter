@@ -46,8 +46,12 @@
 
     private async Task Delete(Guid id)
     {     
-        await _client.DeleteAsync($"Networks/{id}");
-
+        var result = await _client.DeleteAsync($"Networks/{id}");
+        if (!result.IsSuccessStatusCode)
+        {
+            throw new Exception();
+        }
+        
         _networks = _networks.Where(x => x.Identity != id)
                              .ToArray();
     }

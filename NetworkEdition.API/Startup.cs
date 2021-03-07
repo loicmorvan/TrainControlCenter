@@ -52,7 +52,8 @@ namespace NetworkEdition.API
                 var networkRepository = provider.GetService<INetworkRepository>() ??
                                         throw new NullReferenceException("No network repository is registered.");
 
-                return new CommandDispatcher(new CreateNetworkHandler(networkRepository));
+                return new CommandDispatcher(new CreateNetworkHandler(networkRepository),
+                                             new DeleteNetworkHandler(networkRepository));
             });
         }
 
