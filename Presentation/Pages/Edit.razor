@@ -49,7 +49,7 @@
         if (arg.Key == "Enter")
         {
             await _client.PatchAsync($"Networks/{Identity}",
-                                     JsonContent.Create(new {name = _editedName}));
+                                     JsonContent.Create(new NetworkProps(_editedName)));
         }
     }
 

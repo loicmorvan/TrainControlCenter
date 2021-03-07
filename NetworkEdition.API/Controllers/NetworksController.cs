@@ -57,9 +57,12 @@ namespace NetworkEdition.API.Controllers
         }
 
         [HttpPut("{identity}")]
-        public void ChangeName(Guid identity, NetworkProps networkProps)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public IActionResult ChangeName(Guid identity, NetworkProps networkProps)
         {
             _commandDispatcher.Dispatch(new ChangeName(identity, networkProps.Name));
+
+            return NoContent();
         }
 
         [HttpDelete("{identity}")]
