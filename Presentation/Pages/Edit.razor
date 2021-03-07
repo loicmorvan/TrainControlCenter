@@ -2,47 +2,55 @@
 @using NetworkEdition.ViewModels
 @inject IHttpClientFactory ClientFactory
 
-@if (_network == null)
-{
-    <h3>Loading...</h3>
-}
-else
-{
-    <h3>@_network.Name</h3>
+<input type="text" value="@_editedName" @onkeypress="OnKeyPressed"/>
 
-    <div class="card-columns">
-        @foreach (var relay in _network.Relays)
-        {
-            <div class="card"
-                 style="position: relative; left: @(relay.X)px; top: @(relay.Y)px; width: 150px; height: 150px;"
-                 draggable="true">
-                <div class="card-header">
-                    @relay.Name
-                </div>
-                <div class="card-body">
-                    Some text here?
-                </div>
+<h3>@_network.Name</h3>
+
+<div class="card-columns">
+    @foreach (var relay in _network.Relays)
+    {
+        <div class="card"
+             style="position: relative; left: @(relay.X)px; top: @(relay.Y)px; width: 150px; height: 150px;"
+             draggable="true">
+            <div class="card-header">
+                @relay.Name
             </div>
-        }
-    </div>
-}
+            <div class="card-body">
+                Some text here?
+            </div>
+        </div>
+    }
+</div>
 
 @code {
 
 #nullable enable
 
+    private Network _network = new(Guid.Empty, "Unnamed network", Array.Empty<Relay>());
+    private HttpClient _client = new();
+    private string _editedName = "Unnamed network";
+
     [Parameter]
     public Guid Identity { get; set; }
 
-    private Network? _network;
-
     protected override async Task OnInitializedAsync()
     {
-        var client = ClientFactory.CreateClient("Backend");
-        _network = await client.GetFromJsonAsync<Network>($"Networks/{Identity}")
+        _client = ClientFactory.CreateClient("Backend");
+        _network = await _client.GetFromJsonAsync<Network>($"Networks/{Identity}")
                    ?? throw new Exception();
 
+        _editedName = _network.Name;
+
         await base.OnInitializedAsync();
+    }
+
+    private async Task OnKeyPressed(KeyboardEventArgs arg)
+    {
+        if (arg.Key == "Enter")
+        {
+            await _client.PatchAsync($"Networks/{Identity}",
+                                     JsonContent.Create(new {name = _editedName}));
+        }
     }
 
 }

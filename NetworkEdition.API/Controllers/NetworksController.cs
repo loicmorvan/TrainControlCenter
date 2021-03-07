@@ -8,6 +8,7 @@ using NetworkEdition.Application.Commands;
 using NetworkEdition.Application.Events;
 using NetworkEdition.Application.Queries;
 using NetworkEdition.Domain.NetworkAggregate;
+using NetworkEdition.ViewModels;
 using Network = NetworkEdition.ViewModels.Network;
 
 namespace NetworkEdition.API.Controllers
@@ -53,6 +54,12 @@ namespace NetworkEdition.API.Controllers
         public Network Read(Guid identity)
         {
             return _queries.Read(identity);
+        }
+
+        [HttpPut("{identity}")]
+        public void ChangeName(Guid identity, NetworkProps networkProps)
+        {
+            _commandDispatcher.Dispatch(new ChangeName(identity, networkProps.Name));
         }
 
         [HttpDelete("{identity}")]

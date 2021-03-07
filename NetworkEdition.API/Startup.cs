@@ -53,7 +53,8 @@ namespace NetworkEdition.API
                                         throw new NullReferenceException("No network repository is registered.");
 
                 return new CommandDispatcher(new CreateNetworkHandler(networkRepository),
-                                             new DeleteNetworkHandler(networkRepository));
+                                             new DeleteNetworkHandler(networkRepository),
+                                             new ChangeNameHandler(networkRepository));
             });
         }
 

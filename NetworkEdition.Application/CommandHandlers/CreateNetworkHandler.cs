@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Foundation.Application;
 using NetworkEdition.Application.Commands;
 using NetworkEdition.Application.Events;
@@ -15,11 +14,11 @@ namespace NetworkEdition.Application.CommandHandlers
             _networkRepository = networkRepository;
         }
 
-        public IEnumerable<ApplicationEvent> Handle(CreateNetwork command)
+        public ApplicationEvent[] Handle(CreateNetwork command)
         {
             var id = _networkRepository.Create();
 
-            yield return new NetworkCreated(id);
+            return new ApplicationEvent[] {new NetworkCreated(id)};
         }
     }
 }
