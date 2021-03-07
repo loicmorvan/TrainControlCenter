@@ -58,7 +58,7 @@ namespace NetworkEdition.API.Controllers
         [HttpDelete("{identity}")]
         public void Delete(Guid identity)
         {
-            _repository.Delete(identity);
+            _commandDispatcher.Dispatch(new DeleteNetwork(identity));
         }
     }
 }
