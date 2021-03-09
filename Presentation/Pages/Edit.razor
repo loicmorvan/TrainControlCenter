@@ -1,8 +1,8 @@
-@page "/{Identity:guid}/Edit"
+@page "/{NetworkId:guid}/Edit"
 @using NetworkEdition.ViewModels
 @inject IHttpClientFactory ClientFactory
 
-<input type="text" value="@_editedName" @onkeypress="OnKeyPressed"/>
+<input type="text" @bind-value="@_editedName" @onkeyup="OnKeyPressed"/>
 
 <h3>@_network.Name</h3>
 
@@ -31,12 +31,12 @@
     private string _editedName = "Unnamed network";
 
     [Parameter]
-    public Guid Identity { get; set; }
+    public Guid NetworkId { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         _client = ClientFactory.CreateClient("Backend");
-        _network = await _client.GetFromJsonAsync<Network>($"Networks/{Identity}")
+        _network = await _client.GetFromJsonAsync<Network>($"Networks/{NetworkId}")
                    ?? throw new Exception();
 
         _editedName = _network.Name;
@@ -48,8 +48,10 @@
     {
         if (arg.Key == "Enter")
         {
-            await _client.PatchAsync($"Networks/{Identity}",
+            await _client.PutAsync($"Networks/{NetworkId}",
                                      JsonContent.Create(new NetworkProps(_editedName)));
+
+            _network = _network with { Name = _editedName };
         }
     }
 
