@@ -2,3 +2,4 @@ obj/
 bin/
 .idea/
 *.DotSettings.user
+.DS_Store
