@@ -24,7 +24,10 @@ namespace NetworkEdition.Application.CommandHandlers
 
             _repository.Update(network);
 
-            return new ApplicationEvent[] {new NameChanged(networkIdentifier, name)};
+            return new ApplicationEvent[]
+            {
+                new NameChanged(networkIdentifier, name)
+            };
         }
     }
 }

@@ -2,9 +2,7 @@
 @using NetworkEdition.ViewModels
 @inject IHttpClientFactory ClientFactory
 
-<input type="text" @bind-value="@_editedName" @onkeyup="OnKeyPressed"/>
-
-<h3>@_network.Name</h3>
+<TextBox @bind-Value="@Name"/>
 
 <div class="card-columns">
     @foreach (var relay in _network.Relays)
@@ -28,10 +26,20 @@
 
     private Network _network = new(Guid.Empty, "Unnamed network", Array.Empty<Relay>());
     private HttpClient _client = new();
-    private string _editedName = "Unnamed network";
 
     [Parameter]
     public Guid NetworkId { get; set; }
+
+    private string Name
+    {
+        get => _network.Name;
+    // ReSharper disable once UnusedMember.Local
+        set
+        {
+            _client.PutAsJsonAsync($"Networks/{NetworkId}", new NetworkProps(value));
+            _network = _network with { Name = value };
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -39,20 +47,7 @@
         _network = await _client.GetFromJsonAsync<Network>($"Networks/{NetworkId}")
                    ?? throw new Exception();
 
-        _editedName = _network.Name;
-
         await base.OnInitializedAsync();
-    }
-
-    private async Task OnKeyPressed(KeyboardEventArgs arg)
-    {
-        if (arg.Key == "Enter")
-        {
-            await _client.PutAsync($"Networks/{NetworkId}",
-                                     JsonContent.Create(new NetworkProps(_editedName)));
-
-            _network = _network with { Name = _editedName };
-        }
     }
 
 }
