@@ -1,41 +1,39 @@
-<div class="input-group mb-3">
-
-    <div class="input-group-prepend">
-        <span class="input-group-text">
-            <span class="oi oi-file"></span>
-        </span>
-    </div>
+<div class="input-group input-group-lg mb-3 shadow rounded">
 
     @if (_editing)
     {
         <input type="text"
-               class="form-control"
-               placeholder="Unnamed network"
+               class="form-control text-center"
+               placeholder="Network name"
                autofocus
-               @bind-value="@_value"
+               @bind-value="@_editedValue"
+               @oninput="OnInputTextChanged"
                @onkeyup="OnKeyUp">
 
-        <div class="input-group-append">
-            <button class="btn btn-outline-success"
-                    @onclick="Accept">
-                <span class="oi oi-check"></span>
-            </button>
-        </div>
+        @if (_editedValue != Value &&
+             !string.IsNullOrEmpty(_editedValue))
+        {
+            <div class="input-group-append">
+                <button class="btn btn-outline-success"
+                        @onclick="Accept">
+                    <span class="oi oi-check"></span>
+                </button>
+            </div>
 
-        <div class="input-group-append">
-            <button class="btn btn-outline-danger"
-                    @onclick="Cancel">
-                <span class="oi oi-x"></span>
-            </button>
-        </div>
+            <div class="input-group-append">
+                <button class="btn btn-outline-danger"
+                        @onclick="Cancel">
+                    <span class="oi oi-x"></span>
+                </button>
+            </div>
+        }
     }
     else
     {
-        <span class="form-control"
-              @onclick="OnClick"
-              style="cursor: pointer;">
-            @Value
-        </span>
+        <button class="form-control"
+                @onclick="Edit">
+            @_value
+        </button>
     }
 
 </div>
@@ -44,18 +42,27 @@
 
 #nullable enable
 
-    private bool _editing;
+    private bool _editing = false;
+    private string _editedValue = string.Empty;
     private string _value = string.Empty;
 
     [Parameter]
-    public string Value { get; set; } = string.Empty;
+    public string Value
+    {
+        get => _value;
+        set
+        {
+            _value = value;
+            _editedValue = value;
+        }
+    }
 
     [Parameter]
     public EventCallback<string> ValueChanged { get; set; }
 
     private async Task Accept()
     {
-        Value = _value;
+        _value = _editedValue.Trim();
         _editing = false;
 
         await ValueChanged.InvokeAsync(Value);
@@ -63,6 +70,7 @@
 
     private void Cancel()
     {
+        _editedValue = _value;
         _editing = false;
     }
 
@@ -79,9 +87,14 @@
         }
     }
 
-    private void OnClick()
+    private void OnInputTextChanged(ChangeEventArgs arg)
     {
-        _value = Value;
+        _editedValue = (string) arg.Value!;
+    }
+
+    private void Edit()
+    {
+        _editedValue = _value;
         _editing = true;
     }
 
