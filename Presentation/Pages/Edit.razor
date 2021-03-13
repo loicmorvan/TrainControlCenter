@@ -4,6 +4,7 @@
 
 <TextBox @bind-Value="@Name"/>
 
+<!--
 <div class="card-columns">
     @foreach (var relay in _network.Relays)
     {
@@ -19,6 +20,7 @@
         </div>
     }
 </div>
+-->
 
 @code {
 
@@ -33,7 +35,6 @@
     private string Name
     {
         get => _network.Name;
-    // ReSharper disable once UnusedMember.Local
         set
         {
             _client.PutAsJsonAsync($"Networks/{NetworkId}", new NetworkProps(value));

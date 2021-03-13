@@ -1,23 +1,39 @@
-<div class="input-group">
+<div class="input-group mb-3">
 
-    <span class="input-group-text">
-        <span class="oi oi-file"></span>
-    </span>
+    <div class="input-group-prepend">
+        <span class="input-group-text">
+            <span class="oi oi-file"></span>
+        </span>
+    </div>
 
     @if (_editing)
     {
         <input type="text"
                class="form-control"
-               placeholder="Username"
-               aria-label="Username"
-               aria-describedby="basic-addon1"
+               placeholder="Unnamed network"
+               autofocus
                @bind-value="@_value"
                @onkeyup="OnKeyUp">
+
+        <div class="input-group-append">
+            <button class="btn btn-outline-success"
+                    @onclick="Accept">
+                <span class="oi oi-check"></span>
+            </button>
+        </div>
+
+        <div class="input-group-append">
+            <button class="btn btn-outline-danger"
+                    @onclick="Cancel">
+                <span class="oi oi-x"></span>
+            </button>
+        </div>
     }
     else
     {
         <span class="form-control"
-              @onclick="OnClick">
+              @onclick="OnClick"
+              style="cursor: pointer;">
             @Value
         </span>
     }
