@@ -21,7 +21,7 @@ namespace NetworkEdition.Infrastructure
             var identity = Guid.NewGuid();
             var network = new Network(identity,
                                       "Unnamed network",
-                                      Enumerable.Empty<Relay>());
+                                      Array.Empty<Relay>());
 
             _networks.Add(identity, network);
 
@@ -58,7 +58,8 @@ namespace NetworkEdition.Infrastructure
             return new(domainModel.Identity,
                        domainModel.Name,
                        domainModel.Relays
-                                  .Select(Convert));
+                                  .Select(Convert)
+                                  .ToArray());
         }
 
         private static Relay Convert(Domain.NetworkAggregate.Relay domainModel)

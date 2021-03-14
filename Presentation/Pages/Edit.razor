@@ -4,30 +4,14 @@
 
 <TextBox @bind-Value="@Name"/>
 
-<!--
-<div class="card-columns">
-    @foreach (var relay in _network.Relays)
-    {
-        <div class="card"
-             style="position: relative; left: @(relay.X)px; top: @(relay.Y)px; width: 150px; height: 150px;"
-             draggable="true">
-            <div class="card-header">
-                @relay.Name
-            </div>
-            <div class="card-body">
-                Some text here?
-            </div>
-        </div>
-    }
-</div>
--->
-
 @code {
 
 #nullable enable
 
-    private Network _network = new(Guid.Empty, "Unnamed network", Array.Empty<Relay>());
     private HttpClient _client = new();
+
+    private Network _network = new(Guid.Empty, "Unnamed network");
+    private Relay[] _relays = Array.Empty<Relay>();
 
     [Parameter]
     public Guid NetworkId { get; set; }
@@ -45,8 +29,11 @@
     protected override async Task OnInitializedAsync()
     {
         _client = ClientFactory.CreateClient("Backend");
+
         _network = await _client.GetFromJsonAsync<Network>($"Networks/{NetworkId}")
                    ?? throw new Exception();
+        _relays = (await _client.GetFromJsonAsync<IEnumerable<Relay>>($"Networks/{NetworkId}/Relays")
+                   ?? throw new Exception()).ToArray();
 
         await base.OnInitializedAsync();
     }

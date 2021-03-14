@@ -47,6 +47,7 @@ namespace NetworkEdition.API
                 .AddSingleton<IDictionary<NetworkIdentifier, Network>>(new Dictionary<NetworkIdentifier, Network>());
             services.AddSingleton<INetworkRepository, NetworkRepository>();
             services.AddSingleton<INetworkQueries, NetworkQueries>();
+            services.AddSingleton<IRelayQueries, RelayQueries>();
             services.AddSingleton<ICommandDispatcher>(provider =>
             {
                 var networkRepository = provider.GetService<INetworkRepository>() ??

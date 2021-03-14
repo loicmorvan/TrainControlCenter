@@ -4,7 +4,6 @@ using System.Linq;
 using NetworkEdition.Application.Queries;
 using NetworkEdition.Domain.NetworkAggregate;
 using Network = NetworkEdition.Infrastructure.PersistenceModels.Network;
-using Relay = NetworkEdition.ViewModels.Relay;
 
 namespace NetworkEdition.Infrastructure
 {
@@ -30,19 +29,9 @@ namespace NetworkEdition.Infrastructure
 
         private static ViewModels.Network Convert(Network persistenceModel)
         {
-            var (identity, name, relays) = persistenceModel;
+            var (identity, name, _) = persistenceModel;
             return new ViewModels.Network(identity,
-                                          name,
-                                          relays.Select(Convert)
-                                                .ToArray());
-        }
-
-        private static Relay Convert(PersistenceModels.Relay persistenceModel)
-        {
-            return new(persistenceModel.Identity,
-                       persistenceModel.Name,
-                       persistenceModel.X,
-                       persistenceModel.Y);
+                                          name);
         }
     }
 }
