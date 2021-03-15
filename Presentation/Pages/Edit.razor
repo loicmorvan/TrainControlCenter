@@ -11,7 +11,13 @@
 
 @foreach (var relay in _relays)
 {
-    <div>@relay.Name</div>
+    <div class="shadow">
+        <h4>@relay.Name</h4>
+        <button class="btn btn-outline-danger"
+                @onclick="() => DeleteRelay(relay.Identity)">
+            Delete
+        </button>
+    </div>
 }
 
 @code {
@@ -53,6 +59,13 @@
         var relay = await _client.PostAsync<Relay>($"Networks/{NetworkId}/Relays");
 
         _relays = _relays.Append(relay).ToArray();
+    }
+
+    private async Task DeleteRelay(Guid relayId)
+    {
+        await _client.DeleteAsync($"Networks/{NetworkId}/Relays/{relayId}");
+
+        _relays = _relays.Where(x => x.Identity != relayId).ToArray();
     }
 
 }

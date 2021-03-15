@@ -56,7 +56,8 @@ namespace NetworkEdition.API
                 return new CommandDispatcher(new CreateNetworkHandler(networkRepository),
                                              new DeleteNetworkHandler(networkRepository),
                                              new ChangeNameHandler(networkRepository),
-                                             new CreateRelayHandler(networkRepository));
+                                             new CreateRelayHandler(networkRepository),
+                                             new DeleteRelayHandler(networkRepository));
             });
         }
 

@@ -40,7 +40,7 @@ namespace NetworkEdition.API.Controllers
         }
 
         [HttpGet("{relayId}")]
-        public Relay Read(Guid networkId, RelayIdentifier relayId)
+        public Relay Read(Guid networkId, Guid relayId)
         {
             return _relayQueries.Read(networkId, relayId);
         }
@@ -49,6 +49,12 @@ namespace NetworkEdition.API.Controllers
         public IEnumerable<Relay> ReadAll(Guid networkId)
         {
             return _relayQueries.ReadAll(networkId);
+        }
+
+        [HttpDelete("{relayId}")]
+        public void Delete(Guid networkId, Guid relayId)
+        {
+            _commandDispatcher.Dispatch(new DeleteRelay(networkId, relayId));
         }
     }
 }
