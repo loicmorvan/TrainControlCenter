@@ -7,5 +7,7 @@ namespace NetworkEdition.Application.Queries
     public interface IRelayQueries
     {
         IEnumerable<Relay> ReadAll(NetworkIdentifier networkId);
+
+        Relay Read(NetworkIdentifier networkId, RelayIdentifier relayId);
     }
 }

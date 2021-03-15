@@ -4,6 +4,16 @@
 
 <TextBox @bind-Value="@Name"/>
 
+<button @onclick="CreateRelay"
+         class="btn btn-primary">
+    New relay
+</button>
+
+@foreach (var relay in _relays)
+{
+    <div>@relay.Name</div>
+}
+
 @code {
 
 #nullable enable
@@ -36,6 +46,13 @@
                    ?? throw new Exception()).ToArray();
 
         await base.OnInitializedAsync();
+    }
+
+    private async Task CreateRelay()
+    {
+        var relay = await _client.PostAsync<Relay>($"Networks/{NetworkId}/Relays");
+
+        _relays = _relays.Append(relay).ToArray();
     }
 
 }

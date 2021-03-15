@@ -23,6 +23,14 @@ namespace NetworkEdition.Infrastructure
             return network.Relays.Select(Convert);
         }
 
+        public Relay Read(NetworkIdentifier networkId, RelayIdentifier relayId)
+        {
+            var network = _networks[networkId];
+
+            return Convert(network.Relays
+                                  .Single(x => x.Identity == relayId));
+        }
+
         private static Relay Convert(PersistenceModels.Relay persistenceModel)
         {
             return new(persistenceModel.Identity,
