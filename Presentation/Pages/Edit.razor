@@ -4,21 +4,28 @@
 
 <TextBox @bind-Value="@Name"/>
 
-<button @onclick="CreateRelay"
-         class="btn btn-primary">
-    New relay
-</button>
+<div class="mb-3 shadow rounded">
+    <button @onclick="CreateRelay"
+             class="btn btn-primary m-3 shadow">
+        New relay
+    </button>
 
-@foreach (var relay in _relays)
-{
-    <div class="shadow">
-        <h4>@relay.Name</h4>
-        <button class="btn btn-outline-danger"
-                @onclick="() => DeleteRelay(relay.Identity)">
-            Delete
-        </button>
-    </div>
-}
+    @foreach (var relay in _relays)
+    {
+        <div class="d-flex justify-content-between"
+             style="display: flex; align-items: center;">
+            <div>
+                <h4 class="m-3">@relay.Name</h4>
+            </div>
+            <div>
+                <button class="btn btn-outline-danger m-3 shadow text-right"
+                        @onclick="() => DeleteRelay(relay.Identity)">
+                    Delete
+                </button>
+            </div>
+        </div>
+    }
+</div>
 
 @code {
 
