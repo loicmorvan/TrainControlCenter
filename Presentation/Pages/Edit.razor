@@ -4,31 +4,41 @@
 
 <TextBox @bind-Value="@Name"/>
 
-<div class="mb-3 shadow rounded">
+<div class="pb-3 shadow rounded">
     <button @onclick="CreateRelay"
              class="btn btn-primary m-3 shadow">
         New relay
     </button>
 
-    <div class="mb-3">
-        @foreach (var relay in _relays)
-        {
-            <div class="m-3 shadow rounded">
-                <div class="d-flex justify-content-between"
-                     style="display: flex; align-items: center;">
-                    <div>
-                        <h4 class="m-3">@relay.Name</h4>
-                    </div>
-                    <div>
-                        <button class="btn btn-outline-danger m-3 shadow text-right"
-                                @onclick="() => DeleteRelay(relay.Identity)">
-                            Delete
-                        </button>
-                    </div>
+    @foreach (var relay in _relays)
+    {
+        <div class="m-3 shadow rounded">
+            <div class="d-flex justify-content-between"
+                 style="display: flex; align-items: center;">
+                <div>
+                    <h4 class="m-3">@relay.Name</h4>
+                </div>
+                <div>
+                    <button class="btn btn-outline-danger m-3 shadow text-right"
+                            @onclick="() => DeleteRelay(relay.Identity)">
+                        Delete
+                    </button>
                 </div>
             </div>
-        }
-    </div>
+            <div class="input-group input-group-lg m-3 shadow rounded">
+                <div class="input-group-prepend">
+                    <div class="input-group-text ">X</div>
+                </div>
+                <input class="form-control" value="@relay.X">
+            </div>
+            <div class="input-group input-group-lg m-3 shadow rounded">
+                <div class="input-group-prepend">
+                    <div class="input-group-text ">Y</div>
+                </div>
+                <input class="form-control" value="@relay.Y">
+            </div>
+        </div>
+    }
 </div>
 
 @code {
