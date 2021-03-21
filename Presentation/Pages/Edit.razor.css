@@ -1,0 +1,9 @@
+.highlight {
+    color: #1c7430;
+    background-color: #1b6ec2;
+    border-color: red;
+}
+
+.highlight:hover {
+    background-color: #0f6674;
+}
