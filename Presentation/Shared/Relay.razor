@@ -1,0 +1,56 @@
+@inject IHttpClientFactory ClientFactory
+
+<div class="d-flex justify-content-between"
+     style="display: flex; align-items: center;">
+    <div>
+        <h4 class="m-3">@_relay.Name</h4>
+    </div>
+    <div>
+        <button class="btn btn-outline-danger m-3 shadow text-right"
+                @onclick="Delete">
+            Delete
+        </button>
+    </div>
+</div>
+<div class="input-group input-group-lg px-3 my-3 rounded">
+    <div class="input-group-prepend">
+        <div class="input-group-text ">X</div>
+    </div>
+    <input class="form-control" value="@_relay.X">
+</div>
+<div class="input-group input-group-lg px-3 pb-3 my-3 rounded">
+    <div class="input-group-prepend">
+        <div class="input-group-text ">Y</div>
+    </div>
+    <input class="form-control" value="@_relay.Y">
+</div>
+
+@code {
+
+    [Parameter]
+    public Guid NetworkId { get; set; }
+
+    [Parameter]
+    public Guid Id { get; set; }
+
+    [Parameter]
+    public EventCallback<Guid> OnDeleted { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _client = ClientFactory.CreateClient("Backend");
+
+        _relay = await _client.GetFromJsonAsync<NetworkEdition.ViewModels.Relay>($"Networks/{NetworkId}/Relays/{Id}") ?? throw new Exception();
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task Delete()
+    {
+        await _client.DeleteAsync($"Networks/{NetworkId}/Relays/{Id}");
+        await OnDeleted.InvokeAsync(Id);
+    }
+
+    private HttpClient _client = new();
+    private NetworkEdition.ViewModels.Relay _relay = new(Guid.Empty, "No name", 0, 0);
+}
