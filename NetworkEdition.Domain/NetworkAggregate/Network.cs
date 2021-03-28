@@ -43,9 +43,23 @@ namespace NetworkEdition.Domain.NetworkAggregate
         {
             if (!_relays.Remove(relayIdentity))
                 throw new ArgumentException("The given identity does not identify a relay in this network.",
-                                            nameof(relayIdentity));
+                    nameof(relayIdentity));
 
             Publish(new RelayRemoved(Identity, relayIdentity));
+        }
+
+        public void UpdateRelayX(RelayIdentifier relayId, double x)
+        {
+            var relay = _relays.TryGet(relayId) ?? throw new Exception();
+
+            relay.PointOnCanvas = relay.PointOnCanvas with {X = x};
+        }
+
+        public void UpdateRelayY(RelayIdentifier relayId, double y)
+        {
+            var relay = _relays.TryGet(relayId) ?? throw new Exception();
+
+            relay.PointOnCanvas = relay.PointOnCanvas with {Y = y};
         }
     }
 }

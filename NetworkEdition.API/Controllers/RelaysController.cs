@@ -1,14 +1,13 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using Foundation.Application;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NetworkEdition.Application.Commands;
 using NetworkEdition.Application.Events;
 using NetworkEdition.Application.Queries;
-using NetworkEdition.Domain.NetworkAggregate;
-using Relay = NetworkEdition.ViewModels.Relay;
+using NetworkEdition.ViewModels;
 
 namespace NetworkEdition.API.Controllers
 {
@@ -32,11 +31,17 @@ namespace NetworkEdition.API.Controllers
             var events = _commandDispatcher.Dispatch(new CreateRelay(networkId));
 
             var relayCreated = events.OfType<RelayCreated>()
-                                     .Single();
+                .Single();
 
             var relay = _relayQueries.Read(networkId, relayCreated.RelayId);
-            
+
             return CreatedAtAction(nameof(Read), new {networkId, relayCreated.RelayId}, relay);
+        }
+
+        [HttpPatch("{relayId}")]
+        public void Update(Guid networkId, Guid relayId, RelayParams parameters)
+        {
+            _commandDispatcher.Dispatch(new UpdateRelay(networkId, relayId, parameters.X, parameters.Y));
         }
 
         [HttpGet("{relayId}")]
@@ -44,7 +49,7 @@ namespace NetworkEdition.API.Controllers
         {
             return _relayQueries.Read(networkId, relayId);
         }
-        
+
         [HttpGet]
         public IEnumerable<Relay> ReadAll(Guid networkId)
         {

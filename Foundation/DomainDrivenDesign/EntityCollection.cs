@@ -38,5 +38,10 @@ namespace Foundation.DomainDrivenDesign
         {
             return _entities.ContainsKey(identity);
         }
+
+        public TEntity? TryGet(TIdentifier identity)
+        {
+            return _entities.TryGetValue(identity, out var entity) ? entity : null;
+        }
     }
 }

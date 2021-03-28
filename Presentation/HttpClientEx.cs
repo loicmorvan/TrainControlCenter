@@ -9,6 +9,13 @@ namespace Presentation
 {
     public static class HttpClientEx
     {
+        public static async Task PatchAsync<T>(this HttpClient @this, string requestUri, T content)
+        {
+            var response = await @this.PatchAsync(requestUri, JsonContent.Create(content));
+
+            response.EnsureSuccessStatusCode();
+        }
+
         public static async Task<T> PostAsync<T>(this HttpClient @this, string requestUri)
         {
             var resultTask = @this.PostAsync(requestUri, new StringContent(string.Empty));

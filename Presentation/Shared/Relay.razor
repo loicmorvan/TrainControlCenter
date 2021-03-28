@@ -1,3 +1,4 @@
+@using NetworkEdition.ViewModels
 @inject IHttpClientFactory ClientFactory
 
 <div class="d-flex justify-content-between"
@@ -16,13 +17,13 @@
     <div class="input-group-prepend">
         <div class="input-group-text ">X</div>
     </div>
-    <input class="form-control" value="@_relay.X">
+    <input type="number" class="form-control" value="@_relay.X" @onchange="OnXChanged">
 </div>
 <div class="input-group input-group-lg px-3 pb-3 my-3 rounded">
     <div class="input-group-prepend">
         <div class="input-group-text ">Y</div>
     </div>
-    <input class="form-control" value="@_relay.Y">
+    <input type="number" class="form-control" value="@_relay.Y" @onchange="OnYChanged">
 </div>
 
 @code {
@@ -53,4 +54,21 @@
 
     private HttpClient _client = new();
     private NetworkEdition.ViewModels.Relay _relay = new(Guid.Empty, "No name", 0, 0);
+
+    private async Task OnXChanged(ChangeEventArgs arg)
+    {
+        var value = (string) (arg.Value ?? throw new Exception());
+        var newX = int.Parse(value);
+
+        await _client.PatchAsync($"Networks/{NetworkId}/Relays/{Id}", new RelayParams(newX, null));
+    }
+
+    private async Task OnYChanged(ChangeEventArgs arg)
+    {
+        var value = (string) (arg.Value ?? throw new Exception());
+        var newY = int.Parse(value);
+
+        await _client.PatchAsync($"Networks/{NetworkId}/Relays/{Id}", new RelayParams(null, newY));
+    }
+
 }
