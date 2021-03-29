@@ -1,13 +1,12 @@
 using System;
 using Foundation.Application;
 using NetworkEdition.Application.Commands;
+using NetworkEdition.Application.Events;
 using NetworkEdition.Domain.NetworkAggregate;
-using NetworkEdition.Domain.NetworkAggregate.DomainEvents;
-using RelayCreated = NetworkEdition.Application.Events.RelayCreated;
 
 namespace NetworkEdition.Application.CommandHandlers
 {
-    public class CreateRelayHandler: ICommandHandler<CreateRelay>
+    public class CreateRelayHandler : ICommandHandler<CreateRelay>
     {
         private readonly INetworkRepository _networkRepository;
 
@@ -15,7 +14,7 @@ namespace NetworkEdition.Application.CommandHandlers
         {
             _networkRepository = networkRepository;
         }
-        
+
         public ApplicationEvent[] Handle(CreateRelay command)
         {
             var network = _networkRepository.Read(command.NetworkId);

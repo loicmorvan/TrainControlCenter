@@ -22,7 +22,7 @@ namespace NetworkEdition.API.Controllers
         private readonly INetworkRepository _repository;
 
         public NetworksController(ICommandDispatcher commandDispatcher, INetworkQueries queries,
-                                  INetworkRepository repository)
+            INetworkRepository repository)
         {
             _commandDispatcher = commandDispatcher;
             _queries = queries;
@@ -36,7 +36,7 @@ namespace NetworkEdition.API.Controllers
             var events = _commandDispatcher.Dispatch(new CreateNetwork());
 
             var networkCreated = events.OfType<NetworkCreated>()
-                                       .Single();
+                .Single();
 
             var id = networkCreated.Identity;
             var network = _queries.Read(id);

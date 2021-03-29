@@ -60,7 +60,9 @@
         var value = (string) (arg.Value ?? throw new Exception());
         var newX = int.Parse(value);
 
-        await _client.PatchAsync($"Networks/{NetworkId}/Relays/{Id}", new RelayParams(newX, null));
+        _relay = _relay with { X = newX };
+
+        await _client.PatchAsync($"Networks/{NetworkId}/Relays/{Id}", new RelayPatch(newX, null));
     }
 
     private async Task OnYChanged(ChangeEventArgs arg)
@@ -68,7 +70,9 @@
         var value = (string) (arg.Value ?? throw new Exception());
         var newY = int.Parse(value);
 
-        await _client.PatchAsync($"Networks/{NetworkId}/Relays/{Id}", new RelayParams(null, newY));
+        _relay = _relay with { Y = newY };
+        
+        await _client.PatchAsync($"Networks/{NetworkId}/Relays/{Id}", new RelayPatch(null, newY));
     }
 
 }

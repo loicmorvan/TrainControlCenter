@@ -19,7 +19,7 @@ namespace NetworkEdition.Infrastructure
         public IEnumerable<ViewModels.Network> ReadAll()
         {
             return _networks.Values
-                            .Select(Convert);
+                .Select(Convert);
         }
 
         public ViewModels.Network Read(Guid identity)
@@ -31,7 +31,7 @@ namespace NetworkEdition.Infrastructure
         {
             var (identity, name, _) = persistenceModel;
             return new ViewModels.Network(identity,
-                                          name);
+                name);
         }
     }
 }

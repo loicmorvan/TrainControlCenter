@@ -39,9 +39,11 @@ namespace NetworkEdition.API.Controllers
         }
 
         [HttpPatch("{relayId}")]
-        public void Update(Guid networkId, Guid relayId, RelayParams parameters)
+        public void Update(Guid networkId, Guid relayId, RelayPatch patch)
         {
-            _commandDispatcher.Dispatch(new UpdateRelay(networkId, relayId, parameters.X, parameters.Y));
+            var (x, y) = patch;
+            
+            _commandDispatcher.Dispatch(new UpdateRelay(networkId, relayId, x, y));
         }
 
         [HttpGet("{relayId}")]

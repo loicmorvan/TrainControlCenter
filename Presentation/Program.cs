@@ -14,20 +14,20 @@ namespace Presentation
             builder.RootComponents.Add<App>("#app");
 
             builder.Services
-                   .AddScoped(_ => new HttpClient
-                   {
-                       BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
-                   });
+                .AddScoped(_ => new HttpClient
+                {
+                    BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
+                });
 
             builder.Services
-                   .AddHttpClient("Backend",
-                                  client =>
-                                  {
-                                      var networkEditionUrl = builder.Configuration["network-edition-url"];
-                                      if (string.IsNullOrEmpty(networkEditionUrl)) throw new Exception();
+                .AddHttpClient("Backend",
+                    client =>
+                    {
+                        var networkEditionUrl = builder.Configuration["network-edition-url"];
+                        if (string.IsNullOrEmpty(networkEditionUrl)) throw new Exception();
 
-                                      client.BaseAddress = new Uri(networkEditionUrl);
-                                  });
+                        client.BaseAddress = new Uri(networkEditionUrl);
+                    });
 
             await builder.Build().RunAsync();
         }

@@ -10,24 +10,24 @@ namespace Foundation.DomainDrivenDesign
     {
         private readonly Subject<DomainEvent> _domainEvents = new();
 
-        protected Entity(TIdentifier identity)
+        protected Entity(TIdentifier id)
         {
-            Identity = identity;
+            Id = id;
         }
 
-        public TIdentifier Identity { get; }
+        public TIdentifier Id { get; }
 
         public IObservable<DomainEvent> DomainEvents => _domainEvents.AsObservable();
+
+        public void Dispose()
+        {
+            _domainEvents.Dispose();
+        }
 
         protected void Publish<TEvent>(TEvent @event) where TEvent : DomainEvent
         {
             // TODO: This is not the way it should be handled.
             _domainEvents.OnNext(@event);
-        }
-
-        public void Dispose()
-        {
-            _domainEvents.Dispose();
         }
     }
 }

@@ -28,15 +28,15 @@ namespace NetworkEdition.Infrastructure
             var network = _networks[networkId];
 
             return Convert(network.Relays
-                                  .Single(x => x.Identity == relayId));
+                .Single(x => x.Id == relayId));
         }
 
         private static Relay Convert(PersistenceModels.Relay persistenceModel)
         {
-            return new(persistenceModel.Identity,
-                       persistenceModel.Name,
-                       persistenceModel.X,
-                       persistenceModel.Y);
+            return new(persistenceModel.Id,
+                persistenceModel.Name,
+                persistenceModel.X,
+                persistenceModel.Y);
         }
     }
 }

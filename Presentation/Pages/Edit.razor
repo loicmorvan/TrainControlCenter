@@ -65,7 +65,7 @@
     private void OnRelayDeleted(Guid deletedRelayId)
     {
         _relayIds = _relayIds.Where(x => x != deletedRelayId)
-                         .ToArray();
+            .ToArray();
     }
 
 }

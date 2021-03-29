@@ -34,7 +34,7 @@ namespace Foundation.Application
                 var handlerType = TryGetCommandHandlerInterfaceType(objectType);
                 if (handlerType == null)
                     throw new ArgumentException($"The given object of type {objectType} is not a command handler.",
-                                                nameof(commandHandlers));
+                        nameof(commandHandlers));
 
                 var commandType = handlerType.GetGenericArguments()[0]!;
 
@@ -59,7 +59,7 @@ namespace Foundation.Application
             if (!_handlers.TryGetValue(typeof(TCommand), out var untypedHandler))
                 throw new
                     ArgumentException($"The given command type {typeof(TCommand)} has no handler in this dispatcher.",
-                                      nameof(TCommand));
+                        nameof(TCommand));
 
             var handler = (ICommandHandler<TCommand>) untypedHandler;
 
@@ -76,10 +76,10 @@ namespace Foundation.Application
         private Type? TryGetCommandHandlerInterfaceType(Type type)
         {
             return type.GetInterfaces()
-                       .FirstOrDefault(interfaceType =>
-                                           interfaceType.IsGenericType &&
-                                           interfaceType.GetGenericTypeDefinition() ==
-                                           typeof(ICommandHandler<>));
+                .FirstOrDefault(interfaceType =>
+                    interfaceType.IsGenericType &&
+                    interfaceType.GetGenericTypeDefinition() ==
+                    typeof(ICommandHandler<>));
         }
     }
 }

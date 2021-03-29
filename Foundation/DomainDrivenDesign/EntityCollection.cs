@@ -21,7 +21,7 @@ namespace Foundation.DomainDrivenDesign
 
         public void Add(TEntity entity)
         {
-            _entities.Add(entity.Identity, entity);
+            _entities.Add(entity.Id, entity);
         }
 
         public bool Remove(TIdentifier identity)
@@ -31,7 +31,7 @@ namespace Foundation.DomainDrivenDesign
 
         public bool Remove(TEntity entity)
         {
-            return _entities.Remove(entity.Identity);
+            return _entities.Remove(entity.Id);
         }
 
         public bool Contains(TIdentifier identity)
