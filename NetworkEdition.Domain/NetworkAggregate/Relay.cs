@@ -7,7 +7,7 @@ namespace NetworkEdition.Domain.NetworkAggregate
     {
         private Point _pointOnCanvas = Point.Zero;
 
-        public Relay(RelayIdentifier identity) : base(identity)
+        public Relay(RelayIdentifier id) : base(id)
         {
         }
 
@@ -18,7 +18,7 @@ namespace NetworkEdition.Domain.NetworkAggregate
             {
                 _pointOnCanvas = value;
 
-                Publish(new PointOnCanvasChanged(Identity, value));
+                Publish(new PointOnCanvasChanged(Id, value));
             }
         }
 

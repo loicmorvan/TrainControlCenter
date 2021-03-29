@@ -1,33 +1,34 @@
 @page "/{NetworkId:guid}/Edit"
 @using NetworkEdition.ViewModels
+@using Relay = NetworkEdition.ViewModels.Relay
 @inject IHttpClientFactory ClientFactory
 
 <TextBox @bind-Value="@Name"/>
 
-<!--
-<div class="card-columns">
-    @foreach (var relay in _network.Relays)
+<div class="pb-3 shadow rounded">
+    <button @onclick="CreateRelay"
+             class="btn btn-primary m-3 shadow">
+        New relay
+    </button>
+
+    @foreach (var relayId in _relayIds)
     {
-        <div class="card"
-             style="position: relative; left: @(relay.X)px; top: @(relay.Y)px; width: 150px; height: 150px;"
-             draggable="true">
-            <div class="card-header">
-                @relay.Name
-            </div>
-            <div class="card-body">
-                Some text here?
-            </div>
+        <div class="m-3 shadow rounded highlight">
+            <Relay NetworkId="@NetworkId"
+                   Id="@relayId"
+                   OnDeleted="@OnRelayDeleted"/>
         </div>
     }
 </div>
--->
 
 @code {
 
 #nullable enable
 
-    private Network _network = new(Guid.Empty, "Unnamed network", Array.Empty<Relay>());
     private HttpClient _client = new();
+
+    private Network _network = new(Guid.Empty, "Unnamed network");
+    private Guid[] _relayIds = Array.Empty<Guid>();
 
     [Parameter]
     public Guid NetworkId { get; set; }
@@ -45,10 +46,26 @@
     protected override async Task OnInitializedAsync()
     {
         _client = ClientFactory.CreateClient("Backend");
-        _network = await _client.GetFromJsonAsync<Network>($"Networks/{NetworkId}")
-                   ?? throw new Exception();
+
+        _network = await _client.GetFromJsonAsync<Network>($"Networks/{NetworkId}") ?? throw new Exception();
+        _relayIds = (await _client.GetFromJsonAsync<IEnumerable<Relay>>($"Networks/{NetworkId}/Relays") ?? throw new Exception())
+            .Select(x => x.Identity)
+            .ToArray();
 
         await base.OnInitializedAsync();
+    }
+
+    private async Task CreateRelay()
+    {
+        var relay = await _client.PostAsync<Relay>($"Networks/{NetworkId}/Relays");
+
+        _relayIds = _relayIds.Append(relay.Identity).ToArray();
+    }
+
+    private void OnRelayDeleted(Guid deletedRelayId)
+    {
+        _relayIds = _relayIds.Where(x => x != deletedRelayId)
+            .ToArray();
     }
 
 }

@@ -11,7 +11,7 @@ namespace NetworkEdition.Domain.NetworkAggregate
         private readonly EntityCollection<Relay, RelayIdentifier> _relays = new();
         private string _name = "Unnamed network";
 
-        public Network(NetworkIdentifier identity) : base(identity)
+        public Network(NetworkIdentifier id) : base(id)
         {
         }
 
@@ -22,7 +22,7 @@ namespace NetworkEdition.Domain.NetworkAggregate
             {
                 _name = value;
 
-                Publish(new NameChanged(Identity, value));
+                Publish(new NameChanged(Id, value));
             }
         }
 
@@ -34,7 +34,7 @@ namespace NetworkEdition.Domain.NetworkAggregate
 
             _relays.Add(relay);
 
-            Publish(new RelayCreated(Identity, relayIdentity));
+            Publish(new RelayCreated(Id, relayIdentity));
 
             return relayIdentity;
         }
@@ -43,9 +43,23 @@ namespace NetworkEdition.Domain.NetworkAggregate
         {
             if (!_relays.Remove(relayIdentity))
                 throw new ArgumentException("The given identity does not identify a relay in this network.",
-                                            nameof(relayIdentity));
+                    nameof(relayIdentity));
 
-            Publish(new RelayRemoved(Identity, relayIdentity));
+            Publish(new RelayRemoved(Id, relayIdentity));
+        }
+
+        public void UpdateRelayX(RelayIdentifier relayId, double x)
+        {
+            var relay = _relays.TryGet(relayId) ?? throw new Exception();
+
+            relay.PointOnCanvas = relay.PointOnCanvas with {X = x};
+        }
+
+        public void UpdateRelayY(RelayIdentifier relayId, double y)
+        {
+            var relay = _relays.TryGet(relayId) ?? throw new Exception();
+
+            relay.PointOnCanvas = relay.PointOnCanvas with {Y = y};
         }
     }
 }

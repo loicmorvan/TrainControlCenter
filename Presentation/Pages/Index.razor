@@ -8,7 +8,7 @@
 </div>
 
 <div class="card-columns">
-    @foreach (var (id, name, _) in _networks)
+    @foreach (var (id, name) in _networks)
     {
         <div class="card">
             <div class="card-header">
@@ -27,7 +27,7 @@
 #nullable enable
 
     private Network[] _networks = Array.Empty<Network>();
-    private HttpClient _client=new();
+    private HttpClient _client = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -45,23 +45,23 @@
     }
 
     private async Task Delete(Guid id)
-    {     
+    {
         var result = await _client.DeleteAsync($"Networks/{id}");
         if (!result.IsSuccessStatusCode)
         {
             throw new Exception();
         }
-        
+
         _networks = _networks.Where(x => x.Identity != id)
-                             .ToArray();
+            .ToArray();
     }
 
     private async Task New()
-    {    
+    {
         var network = await _client.PostAsync<Network>("Networks");
 
         _networks = _networks.Append(network)
-                             .ToArray();
+            .ToArray();
     }
 
 }

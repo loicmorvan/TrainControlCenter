@@ -31,30 +31,35 @@ namespace NetworkEdition.API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1",
-                             new OpenApiInfo
-                             {
-                                 Title = "NetworkEdition.API",
-                                 Version = "v1"
-                             });
+                    new OpenApiInfo
+                    {
+                        Title = "NetworkEdition.API",
+                        Version = "v1"
+                    });
             });
 
             services.AddCors(opt => opt.AddPolicy("name",
-                                                  builder => builder.AllowAnyOrigin()
-                                                                    .AllowAnyHeader()
-                                                                    .AllowAnyMethod()));
+                builder => builder.AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()));
 
             services
                 .AddSingleton<IDictionary<NetworkIdentifier, Network>>(new Dictionary<NetworkIdentifier, Network>());
             services.AddSingleton<INetworkRepository, NetworkRepository>();
             services.AddSingleton<INetworkQueries, NetworkQueries>();
+            services.AddSingleton<IRelayQueries, RelayQueries>();
             services.AddSingleton<ICommandDispatcher>(provider =>
             {
                 var networkRepository = provider.GetService<INetworkRepository>() ??
                                         throw new NullReferenceException("No network repository is registered.");
 
-                return new CommandDispatcher(new CreateNetworkHandler(networkRepository),
-                                             new DeleteNetworkHandler(networkRepository),
-                                             new ChangeNameHandler(networkRepository));
+                return new CommandDispatcher(
+                    new CreateNetworkHandler(networkRepository),
+                    new DeleteNetworkHandler(networkRepository),
+                    new ChangeNameHandler(networkRepository),
+                    new CreateRelayHandler(networkRepository),
+                    new DeleteRelayHandler(networkRepository),
+                    new UpdateRelayHandler(networkRepository));
             });
         }
 

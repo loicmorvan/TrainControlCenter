@@ -3,5 +3,5 @@ using NetworkEdition.Domain.NetworkAggregate;
 
 namespace NetworkEdition.Application.Events
 {
-    public record NetworkCreated(NetworkIdentifier Identity) : ApplicationEvent;
+    public record RelayCreated(NetworkIdentifier NetworkId, RelayIdentifier RelayId) : ApplicationEvent;
 }
